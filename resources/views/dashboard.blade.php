@@ -1,16 +1,17 @@
-@extends('layouts.app')
+@extends('layouts/app')
 @section('content')
 <div class="row">
+    <h1>Selamat Datang Di Admin Restaurant</h1>
 
                         <!-- Earnings (Monthly) Card Example -->
 </div>
 
                     <!-- Content Row -->
 
-<div class="row">
+ <div class="row">
 
                         <!-- Area Chart -->
-                
+                    
 </div>
 
                     <!-- Content Row -->
@@ -18,8 +19,5 @@
 
                         <!-- Content Column -->
                         
-                <!-- /.container-fluid -->
-
 </div>
-            <!-- End of Main Content -->
 @endsection
