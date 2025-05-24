@@ -33,16 +33,24 @@ class MerchandiseController extends Controller
     {
         //
         $request->validate([
-            'nama' => 'required',
-            'kategori' => 'required',
-            'stok' => 'required|integer',
-            'harga' => 'required|numeric',
-            'deskripsi' => 'nullable|string',
-        ]);
+        'nama' => 'required',
+        'harga' => 'required|numeric',
+        'deskripsi' => 'nullable|string',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+    ]);
 
-        Merchandise::create($request->all());
-        return redirect()->route('merchandise.index')->with('success', 'Berhasil menambahkan merchandise.');
+    $data = $request->only(['nama', 'harga', 'deskripsi']);
+
+    if ($request->hasFile('image')) {
+        $fileName = time().'.'.$request->image->extension();
+        $request->image->move(public_path('images'), $fileName);
+        $data['image'] = $fileName;
     }
+
+    Merchandise::create($data);
+
+    return redirect()->route('merchandise.index')->with('success', 'Berhasil menambahkan merchandise.');
+}
 
     /**
      * Display the specified resource.
@@ -68,19 +76,26 @@ class MerchandiseController extends Controller
     public function update(Request $request, string $id)
     {
         //
-        $request->validate([
-            'nama' => 'required',
-            'kategori' => 'required',
-            'stok' => 'required|integer',
-            'harga' => 'required|numeric',
-            'deskripsi' => 'nullable|string',
-        ]);
-        
-        $merchandise = Merchandise::findOrFail($id);
+         $request->validate([
+        'nama' => 'required',
+        'harga' => 'required|numeric',
+        'deskripsi' => 'nullable|string',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+    ]);
 
-        $merchandise->update($request->all());
-        return redirect()->route('merchandise.index')->with('success', 'Berhasil mengupdate merchandise.');
+    $merchandise = Merchandise::findOrFail($id);
+    $data = $request->only(['nama', 'harga', 'deskripsi']);
+
+    if ($request->hasFile('image')) {
+        $fileName = time().'.'.$request->image->extension();
+        $request->image->move(public_path('images'), $fileName);
+        $data['image'] = $fileName;
     }
+
+    $merchandise->update($data);
+
+    return redirect()->route('merchandise.index')->with('success', 'Berhasil mengupdate merchandise.');
+}
 
     /**
      * Remove the specified resource from storage.

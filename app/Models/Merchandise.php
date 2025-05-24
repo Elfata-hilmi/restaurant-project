@@ -10,5 +10,6 @@ class Merchandise extends Model
     //
     use HasFactory;
 
-    protected $fillable = ['nama', 'kategori', 'stok', 'harga', 'deskripsi'];
+    protected $fillable = ['nama', 'harga', 'deskripsi', 'image'];
+
 }

@@ -12,12 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('pegawais', function (Blueprint $table) {
-            $table->id();
-            $table->string('nama');
-            $table->string('divisi');
-            $table->string('alamat');
-            $table->timestamps();
-        });
+        $table->id();
+        $table->string('nama');
+        $table->string('divisi');
+        $table->string('foto')->nullable();
+        $table->timestamps();
+    });
     }
 
     /**

@@ -1,3 +1,4 @@
+<!-- resources/views/minuman/edit.blade.php -->
 @extends('layouts.app')
 
 @section('content')
@@ -6,38 +7,25 @@
     <form action="{{ route('minuman.update', $minuman->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
-
-        <!-- Nama -->
         <div class="form-group">
-            <label for="nama">Nama Minuman</label>
-            <input type="text" class="form-control" id="nama" name="nama" value="{{ $minuman->nama }}" required>
+            <label>Nama</label>
+            <input type="text" name="nama" class="form-control" value="{{ $minuman->nama }}" required>
         </div>
-
-        <!-- Stok -->
         <div class="form-group">
-            <label for="stok">Stok</label>
-            <input type="number" class="form-control" id="stok" name="stok" value="{{ $minuman->stok }}" required>
+            <label>Deskripsi</label>
+            <textarea name="deskripsi" class="form-control" required>{{ $minuman->deskripsi }}</textarea>
         </div>
-
-        <!-- Deskripsi -->
         <div class="form-group">
-            <label for="deskripsi">Deskripsi</label>
-            <textarea class="form-control" id="deskripsi" name="deskripsi" rows="3" required>{{ $minuman->deskripsi }}</textarea>
+            <label>Harga</label>
+            <input type="number" name="harga" class="form-control" value="{{ $minuman->harga }}" required>
         </div>
-
-        <!-- Harga -->
         <div class="form-group">
-            <label for="harga">Harga</label>
-            <input type="number" class="form-control" id="harga" name="harga" value="{{ $minuman->harga }}" required>
+            <label>Foto</label>
+            <input type="file" name="foto" class="form-control">
+            @if ($minuman->foto)
+                <img src="{{ asset('image/' . $minuman->foto) }}" width="100" class="mt-2">
+            @endif
         </div>
-
-        <!-- Foto -->
-        <div class="form-group">
-            <label for="foto">Foto</label>
-            <input type="file" class="form-control" id="foto" name="foto">
-            <img src="{{ asset('storage/'.$minuman->foto) }}" alt="Foto Minuman" width="100" class="mt-2">
-        </div>
-
-        <button type="submit" class="btn btn-primary">Update Minuman</button>
+        <button type="submit" class="btn btn-primary">Update</button>
     </form>
 @endsection

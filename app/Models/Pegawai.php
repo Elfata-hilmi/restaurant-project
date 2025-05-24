@@ -7,5 +7,5 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Pegawai extends Model
 {
-    protected $fillable = ['nama', 'divisi', 'alamat'];
+    protected $fillable = ['nama', 'divisi', 'foto'];
 }

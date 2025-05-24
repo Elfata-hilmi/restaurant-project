@@ -33,14 +33,23 @@ class PegawaiController extends Controller
     {
         //
         $request->validate([
-            'nama' => 'required|string|max:255',
-            'divisi' => 'required|string|max:255',
-            'alamat' => 'required|string|max:255',
-        ]);
+        'nama' => 'required|string|max:255',
+        'divisi' => 'required|string|max:255',
+        'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
 
-        Pegawai::create($request->all());
+    $data = $request->only('nama', 'divisi');
 
-        return redirect()->route('pegawai.index')->with('success', 'Pegawai berhasil ditambahkan.');
+    if ($request->hasFile('foto')) {
+        $file = $request->file('foto');
+        $filename = time() . '_' . $file->getClientOriginalName();
+        $file->move(public_path('image'), $filename);
+        $data['foto'] = $filename;
+    }
+
+    Pegawai::create($data);
+
+    return redirect()->route('pegawai.index')->with('success', 'Pegawai berhasil ditambahkan.');
     }
 
     /**
@@ -69,13 +78,29 @@ class PegawaiController extends Controller
         //
         $pegawai = Pegawai::findOrFail($id);
 
-        $pegawai->update([
-            'nama' => $request->nama,
-            'divisi' => $request->divisi,
-            'alamat' => $request->alamat,
-        ]);
-    
-        return redirect()->route('pegawai.index')->with('success', 'Data pegawai berhasil diperbarui.');
+    $request->validate([
+        'nama' => 'required|string|max:255',
+        'divisi' => 'required|string|max:255',
+        'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
+
+    $data = $request->only('nama', 'divisi');
+
+    if ($request->hasFile('foto')) {
+        // Hapus foto lama jika ada
+        if ($pegawai->foto && file_exists(public_path('image/' . $pegawai->foto))) {
+            unlink(public_path('image/' . $pegawai->foto));
+        }
+
+        $file = $request->file('foto');
+        $filename = time() . '_' . $file->getClientOriginalName();
+        $file->move(public_path('image'), $filename);
+        $data['foto'] = $filename;
+    }
+
+    $pegawai->update($data);
+
+    return redirect()->route('pegawai.index')->with('success', 'Data pegawai berhasil diperbarui.');
     }
 
     /**

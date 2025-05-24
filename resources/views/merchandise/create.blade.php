@@ -1,52 +1,28 @@
-@extends('layouts/app')
-@section('content')
+@extends('layouts.app')
 
+@section('content')
 <div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">
-                    <h2>Detail Produk: {{ $product->name }}</h2>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-4">
-                            @if($product->image)
-                                <img src="{{ asset('images/'.$product->image) }}" class="img-fluid">
-                            @else
-                                <div class="text-center py-4 bg-light">Tidak ada gambar</div>
-                            @endif
-                        </div>
-                        <div class="col-md-8">
-                            <table class="table">
-                                <tr>
-                                    <th>Nama Produk</th>
-                                    <td>{{ $product->name }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Deskripsi</th>
-                                    <td>{{ $product->description ?? '-' }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Harga</th>
-                                    <td>Rp {{ number_format($product->price, 0, ',', '.') }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Stok</th>
-                                    <td>{{ $product->stock }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Kategori</th>
-                                    <td>{{ $product->category }}</td>
-                                </tr>
-                            </table>
-                            <a class="btn btn-primary" href="{{ route('products.edit', $product->id) }}">Edit</a>
-                            <a class="btn btn-secondary" href="{{ route('products.index') }}">Kembali</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <h1>Tambah Merchandise</h1>
+    <form action="{{ route('merchandise.store') }}" method="POST" enctype="multipart/form-data">
+        @csrf
+        <div class="form-group">
+            <label>Nama</label>
+            <input type="text" name="nama" class="form-control" value="{{ old('nama') }}" required>
         </div>
-    </div>
+        <div class="form-group">
+            <label>Harga</label>
+            <input type="number" step="0.01" name="harga" class="form-control" value="{{ old('harga') }}" required>
+        </div>
+        <div class="form-group">
+            <label>Deskripsi</label>
+            <textarea name="deskripsi" class="form-control" rows="4">{{ old('deskripsi') }}</textarea>
+        </div>
+        <div class="form-group">
+            <label>Foto</label>
+            <input type="file" name="image" class="form-control">
+        </div>
+        <button class="btn btn-success mt-3">Simpan</button>
+        <a href="{{ route('merchandise.index') }}" class="btn btn-secondary mt-3">Kembali</a>
+    </form>
 </div>
 @endsection

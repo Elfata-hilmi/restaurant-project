@@ -1,28 +1,26 @@
+<!-- resources/views/minuman/create.blade.php -->
 @extends('layouts.app')
 
 @section('content')
     <h1>Tambah Minuman</h1>
+
     <form action="{{ route('minuman.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="form-group">
-            <label for="nama">Nama</label>
-            <input type="text" class="form-control" id="nama" name="nama" required>
+            <label>Nama</label>
+            <input type="text" name="nama" class="form-control" required>
         </div>
         <div class="form-group">
-            <label for="stok">Stok</label>
-            <input type="number" class="form-control" id="stok" name="stok" required>
+            <label>Deskripsi</label>
+            <textarea name="deskripsi" class="form-control" required></textarea>
         </div>
         <div class="form-group">
-            <label for="deskripsi">Deskripsi</label>
-            <textarea class="form-control" id="deskripsi" name="deskripsi" required></textarea>
+            <label>Harga</label>
+            <input type="number" name="harga" class="form-control" required>
         </div>
         <div class="form-group">
-            <label for="harga">Harga</label>
-            <input type="number" class="form-control" id="harga" name="harga" required>
-        </div>
-        <div class="form-group">
-            <label for="foto">Foto</label>
-            <input type="file" class="form-control" id="foto" name="foto">
+            <label>Foto</label>
+            <input type="file" name="foto" class="form-control">
         </div>
         <button type="submit" class="btn btn-primary">Simpan</button>
     </form>

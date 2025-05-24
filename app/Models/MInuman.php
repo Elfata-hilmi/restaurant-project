@@ -6,8 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class MInuman extends Model
 {
-    protected $table = 'minumans'; 
-    protected $fillable = [
-        'nama', 'stok', 'deskripsi', 'harga', 'foto'
-    ];
+    protected $table = 'minumans'; // ini penting!
+
+    protected $fillable = ['nama', 'deskripsi', 'harga', 'foto'];
 }
