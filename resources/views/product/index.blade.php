@@ -20,6 +20,7 @@
                             <th>Nama Makanan</th>
                             <th>Deskripsi</th>
                             <th>Harga</th>
+                            <th>Foto</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -30,6 +31,13 @@
                             <td>{{ $product->name }}</td>
                             <td>{{ $product->description }}</td>
                             <td>Rp {{ number_format($product->price, 0, ',', '.') }}</td>
+                            <td>
+                                @if ($product->photo)
+                                    <img src="{{ asset('image/' . $product->photo) }}" width="80" alt="Foto Makanan">
+                                @else
+                                    <span class="text-muted">Tidak ada foto</span>
+                                @endif
+                            </td>
                             <td>
                                 <a href="{{ route('product.edit', $product->id) }}" class="btn btn-sm btn-warning">Edit</a>
                                 <form action="{{ route('product.destroy', $product->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus makanan ini?')">
@@ -43,7 +51,7 @@
 
                         @if ($products->isEmpty())
                         <tr>
-                            <td colspan="5" class="text-center">Belum ada data makanan</td>
+                            <td colspan="6" class="text-center">Belum ada data makanan</td>
                         </tr>
                         @endif
                     </tbody>

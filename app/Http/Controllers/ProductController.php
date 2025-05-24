@@ -33,12 +33,24 @@ class ProductController extends Controller
     {
         //
         $request->validate([
-            'name' => 'required',
-            'price' => 'required|numeric',
-        ]);
+        'name' => 'required',
+        'description' => 'required',
+        'price' => 'required|numeric',
+        'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+    ]);
 
-        Product::create($request->all());
-        return redirect()->route('product.index')->with('success', 'Makanan berhasil ditambahkan.');
+    $data = $request->all();
+
+    if ($request->hasFile('photo')) {
+        $file = $request->file('photo');
+        $filename = time() . '.' . $file->getClientOriginalExtension();
+        $file->move(public_path('image'), $filename);
+        $data['photo'] = $filename;
+    }
+
+    Product::create($data);
+
+    return redirect()->route('product.index')->with('success', 'Makanan berhasil ditambahkan.');
     }
 
     /**
@@ -67,12 +79,28 @@ class ProductController extends Controller
     {
         //
         $request->validate([
-            'name' => 'required',
-            'price' => 'required|numeric',
-        ]);
+        'name' => 'required',
+        'description' => 'required',
+        'price' => 'required|numeric',
+        'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+    ]);
 
-        $product = Product::findOrFail($id); // Tambahkan ini
-    $product->update($request->all());
+    $product = Product::findOrFail($id);
+    $data = $request->all();
+
+    if ($request->hasFile('photo')) {
+        // Optional: hapus file lama
+        if ($product->photo && file_exists(public_path('image/' . $product->photo))) {
+            unlink(public_path('image/' . $product->photo));
+        }
+
+        $file = $request->file('photo');
+        $filename = time() . '.' . $file->getClientOriginalExtension();
+        $file->move(public_path('image'), $filename);
+        $data['photo'] = $filename;
+    }
+
+    $product->update($data);
 
     return redirect()->route('product.index')->with('success', 'Makanan berhasil diubah.');
     }

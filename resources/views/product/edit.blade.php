@@ -14,7 +14,7 @@
         </div>
     @endif
 
-    <form action="{{ route('product.update', $product->id) }}" method="POST">
+    <form action="{{ route('product.update', $product->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
 
@@ -31,6 +31,16 @@
         <div class="form-group">
             <label for="price">Harga</label>
             <input type="number" name="price" class="form-control" value="{{ $product->price }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="photo">Foto</label>
+            <input type="file" name="photo" class="form-control-file">
+            @if ($product->photo)
+                <div class="mt-2">
+                    <img src="{{ asset('image/' . $product->photo) }}" width="120" alt="Foto Makanan">
+                </div>
+            @endif
         </div>
 
         <a href="{{ route('product.index') }}" class="btn btn-secondary">Kembali</a>
